@@ -1,5 +1,13 @@
 # qinglong-scripts
 
+## node 依赖
+
+- axios
+- readline
+- sqlite3
+- typeorm
+- uuid
+
 ## imaotai
 
 - AMAP_KEY: 环境变量<高德地图>
