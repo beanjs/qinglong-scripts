@@ -81,7 +81,6 @@ async function main () {
 
   for (const usr of usrs) {
     let msg = `# ${usr.phone} 旅行\n\n`
-    let notify = false
 
     const iln = await isolation(usr, { mtversion: mtv })
     console.log(iln)
@@ -89,7 +88,6 @@ async function main () {
     if (iln.energyReward.value > 0) {
       await energyAward(usr, { mtversion: mtv })
       msg += `申购奖励: ${iln.energyReward.value} \n`
-      notify = true
 
       iln.energy += iln.energyReward.value
     }
@@ -97,9 +95,7 @@ async function main () {
     if (iln.xmTravel.status == 3) {
       await receiveReward(usr, { mtversion: mtv })
       await shareReward(usr, { mtversion: mtv })
-
       msg += `结束旅行: ${iln.energy} ${iln.xmTravel.remainChance} \n`
-      notify = true
 
       iln.xmTravel.status = 1
     }
@@ -114,16 +110,11 @@ async function main () {
       if (iln.energy >= 100 && iln.xmTravel.remainChance > 0) {
         await startTravel(usr, { mtversion: mtv })
         msg += `开始旅行: ${iln.energy} ${iln.xmTravel.remainChance} \n`
-        notify = true
       }
     }
 
-    if (notify) {
-      console.log(msg)
-      if (global.QLAPI) QLAPI.notify('i茅台旅行', msg, { template: 'markdown' })
-    }
-
-    await sleep(2)
+    console.log(msg)
+    await sleep(1)
   }
 }
 

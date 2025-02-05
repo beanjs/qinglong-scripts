@@ -3,7 +3,7 @@ const { default: axios } = require('axios')
 const { setTimeout } = require('timers/promises')
 const { v4 } = require('uuid')
 
-const dstWares = ['11240', '11318', '11319', '11317', '2478']
+const dstWares = ['11318', '11319', '11317', '2478']
 
 async function mtversion () {
   const url = 'https://itunes.apple.com/cn/lookup?id=1600482450'

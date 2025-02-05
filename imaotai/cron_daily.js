@@ -73,13 +73,11 @@ async function main () {
 
   for (const usr of usrs) {
     let msg = `# ${usr.phone} 每日\n\n`
-    let notify = false
 
     const idcap = await dcap(usr, { mtversion: mtv })
     if (idcap.previousProgress + 1 == 7 && idcap.appliedToday) {
       const { rewardAmount } = await rdcap(usr, { mtversion: mtv })
       msg += `连续申购奖励: ${rewardAmount}`
-      notify = true
     }
 
     const icad = await cad(usr, { mtversion: mtv })
@@ -89,13 +87,9 @@ async function main () {
     ) {
       const { rewardAmount } = await rcad(usr, { mtversion: mtv })
       msg += `累计申购奖励: ${rewardAmount}`
-      notify = true
     }
 
-    if (notify) {
-      console.log(msg)
-      if (global.QLAPI) QLAPI.notify('i茅台奖励', msg, { template: 'markdown' })
-    }
+    console.log(msg)
   }
 }
 

@@ -106,6 +106,7 @@ async function main () {
 
   for (const usr of usrs) {
     let msg = `# ${usr.phone} 申购\n\n`
+    let notify = false
 
     for (const wc of dstWares) {
       const wis = await ware(usr, { ware: wc, session: snid, daytime: dtm })
@@ -149,13 +150,19 @@ async function main () {
         await UserRepo.update({ phone }, { status: 'disable' })
       }
 
-      msg += `[${message}] ${wis.item.title}\n`
-      msg += `[店铺地址] ${nsl.address} \n`
+      msg += `[${message}] ${wis.item.title}\n\n`
+      msg += `[店铺地址] ${nsl.address} \n\n`
       msg += `![pic](${wis.item.picUrl})\n\n`
+
+      if (message != '申购完成') {
+        notify = true
+      }
     }
 
     console.log(msg)
-    if (global.QLAPI) QLAPI.notify('i茅台推送', msg, { template: 'markdown' })
+    if (global.QLAPI && notify) {
+      QLAPI.notify('i茅台推送', msg, { template: 'markdown' })
+    }
 
     // 随机休眠
     await sleep(1)

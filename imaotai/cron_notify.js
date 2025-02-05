@@ -21,6 +21,7 @@ async function main () {
 
   for (const usr of usrs) {
     let msg = `# ${usr.phone} 结果\n\n`
+    let notify = false
 
     if (usr.status == 'enable') {
       const headers = await header(usr, { mtversion: mtv })
@@ -45,6 +46,7 @@ async function main () {
 
           if (ivo.status == 2) {
             msg += `已中奖 [${ivo.itemName}]\n`
+            notify = true
           }
 
           msg += `![pic](${ivo.itemPicUrl})\n\n`
@@ -55,7 +57,9 @@ async function main () {
     }
 
     console.log(msg)
-    if (global.QLAPI) QLAPI.notify('i茅台推送', msg, { template: 'markdown' })
+    if (global.QLAPI && notify) {
+      QLAPI.notify('i茅台推送', msg, { template: 'markdown' })
+    }
   }
 }
 
